@@ -1,0 +1,27 @@
+<h1>Expense Tracker</h1>
+<form action="/add" method = "POST">
+<input type = "text" name = "description" placeholder = "Description" required>
+<input type="number" name="amount" placeholder="Amount" required>
+  <input type="text" name="category" placeholder="Category">
+  <input type="date" name="date">
+  <button type="submit">Add Expense</button>
+
+</form>
+<ul>
+  {{#each expenses}}
+    <li>
+      {{description}} - {{amount}} ({{category}}) on {{date}}
+      <form action="/delete/{{_id}}" method="POST" style="display:inline;">
+        <button type="submit">Delete</button>
+      </form>
+    </li>
+  {{/each}}
+</ul>
+
+<h2>Expense Summary by Category</h2>
+<ul>
+  {{#each summary}}
+    <li>{{_id}}: {{total}}</li>
+  {{/each}}
+</ul>
+
