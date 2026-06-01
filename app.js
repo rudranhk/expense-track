@@ -6,6 +6,7 @@ const path = require('path');
 require('dotenv').config();
 
 const expenseRoutes = require('./routes/expenses');
+const aiRoutes = require('./routes/ai');
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/expenses', expenseRoutes);
+app.use('/api/ai', aiRoutes);
 
 const clientBuildPath = path.join(__dirname, 'client', 'dist');
 app.use(express.static(clientBuildPath));

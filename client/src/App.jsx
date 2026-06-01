@@ -2,8 +2,10 @@ import { useState, useEffect, useCallback } from 'react';
 import Header from './components/Header.jsx';
 import StatsCards from './components/StatsCards.jsx';
 import Charts from './components/Charts.jsx';
+import AIInsights from './components/AIInsights.jsx';
 import ExpenseList from './components/ExpenseList.jsx';
 import ExpenseForm from './components/ExpenseForm.jsx';
+import AIChat from './components/AIChat.jsx';
 import { getExpenses, getStats, createExpense, updateExpense, deleteExpense } from './api/expenses.js';
 
 export default function App() {
@@ -69,6 +71,7 @@ export default function App() {
       <main className="main-content">
         <StatsCards stats={stats} loading={loading} />
         <Charts stats={stats} loading={loading} />
+        <AIInsights stats={stats} expenses={expenses} />
         <ExpenseList
           expenses={expenses}
           loading={loading}
@@ -78,6 +81,7 @@ export default function App() {
           onEdit={handleEdit}
         />
       </main>
+      <AIChat stats={stats} expenses={expenses} />
       {formOpen && (
         <ExpenseForm
           expense={editingExpense}

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { X } from 'lucide-react';
+import { X, Sparkles } from 'lucide-react';
+import axios from 'axios';
 
 const CATS = [
   { name: 'Food',          emoji: '🍔' },
@@ -25,6 +26,22 @@ export default function ExpenseForm({ expense, onSubmit, onClose }) {
     date: new Date().toISOString().split('T')[0]
   });
   const [saving, setSaving] = useState(false);
+  const [aiSuggest, setAiSuggest] = useState(null);
+  const [aiLoading, setAiLoading] = useState(false);
+
+  useEffect(() => {
+    const desc = form.description.trim();
+    if (desc.length < 4) { setAiSuggest(null); return; }
+    const t = setTimeout(async () => {
+      setAiLoading(true);
+      try {
+        const { data } = await axios.post('/api/ai/categorize', { description: desc });
+        if (data.category) setAiSuggest(data.category);
+      } catch {}
+      setAiLoading(false);
+    }, 600);
+    return () => clearTimeout(t);
+  }, [form.description]);
 
   useEffect(() => {
     if (expense) {
@@ -80,6 +97,24 @@ export default function ExpenseForm({ expense, onSubmit, onClose }) {
               onKeyDown={e => e.key === 'Enter' && handleSubmit()}
               autoFocus
             />
+            {(aiLoading || aiSuggest) && (
+              <div className="ai-suggest">
+                {aiLoading ? (
+                  <span className="ai-suggest-loading">
+                    <Sparkles size={10} /> Detecting category…
+                  </span>
+                ) : (
+                  <button
+                    type="button"
+                    className="ai-suggest-chip"
+                    onClick={() => { set('category', aiSuggest); setAiSuggest(null); }}
+                  >
+                    <Sparkles size={10} />
+                    AI suggests: {aiSuggest} — Apply
+                  </button>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="form-group">
