@@ -1,23 +1,30 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const exphbs = require('express-handlebars');
-const expenseRoutes = require('./routes/expenses');
-const Expense = require('./models/Expense');
+const cors = require('cors');
 const path = require('path');
+
+require('dotenv').config();
+
+const expenseRoutes = require('./routes/expenses');
+
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/', expenseRoutes);
-app.use(express.static(path.join(__dirname, 'graphic')));
+app.use(cors());
+app.use(express.json());
 
-app.engine('hbs', exphbs.engine({ extname: '.hbs',
-     defaultLayout: 'main', 
-    layoutsDir : __dirname + '/views/layouts/' }));
-app.set('view engine', 'hbs');
-app.set('views', __dirname + '/views');
+app.use('/api/expenses', expenseRoutes);
 
-mongoose.connect('mongodb://localhost:27017/expensetracker');
+const clientBuildPath = path.join(__dirname, 'client', 'dist');
+app.use(express.static(clientBuildPath));
+app.use((req, res) => {
+  res.sendFile(path.join(clientBuildPath, 'index.html'));
+});
 
+const PORT = process.env.PORT || 3000;
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/expensetracker';
 
-app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+mongoose.connect(MONGO_URI)
+  .then(() => console.log('✓ MongoDB connected'))
+  .catch(err => console.error('✗ MongoDB error:', err));
+
+app.listen(PORT, () => console.log(`✓ Server running on http://localhost:${PORT}`));
