@@ -1,7 +1,7 @@
 import { DollarSign, CalendarDays, Activity, Tag } from 'lucide-react';
 
 const fmt = (n) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n || 0);
+  new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(n || 0);
 
 export default function StatsCards({ stats, loading }) {
   if (loading) {

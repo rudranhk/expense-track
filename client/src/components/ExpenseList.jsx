@@ -19,7 +19,7 @@ const fmtDate = (d) =>
   new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
 const fmtAmt = (n) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(n);
+  new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(n);
 
 export default function ExpenseList({ expenses, loading, filters, onFilterChange, onDelete, onEdit }) {
   const [confirmId, setConfirmId] = useState(null);

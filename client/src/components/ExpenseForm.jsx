@@ -118,9 +118,9 @@ export default function ExpenseForm({ expense, onSubmit, onClose }) {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Amount (USD)</label>
+            <label className="form-label">Amount (INR)</label>
             <div className="amount-wrap">
-              <span className="amount-symbol">$</span>
+              <span className="amount-symbol">₹</span>
               <input
                 className="form-input"
                 style={{ paddingLeft: 28 }}

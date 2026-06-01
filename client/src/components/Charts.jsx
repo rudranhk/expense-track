@@ -17,7 +17,7 @@ const CAT_COLORS = {
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-const fmtY = (v) => v >= 1000 ? `$${(v / 1000).toFixed(1)}k` : `$${v}`;
+const fmtY = (v) => v >= 1000 ? `₹${(v / 1000).toFixed(1)}k` : `₹${v}`;
 
 function Tip({ active, payload }) {
   if (!active || !payload?.length) return null;
@@ -31,7 +31,7 @@ function Tip({ active, payload }) {
       boxShadow: '0 8px 32px rgba(0,0,0,0.9)'
     }}>
       <div style={{ fontWeight: 700, marginBottom: 3 }}>{p.name || p.dataKey}</div>
-      <div style={{ color: '#aaa', fontWeight: 600 }}>${Number(p.value).toLocaleString()}</div>
+      <div style={{ color: '#aaa', fontWeight: 600 }}>₹{Number(p.value).toLocaleString('en-IN')}</div>
     </div>
   );
 }
@@ -105,7 +105,7 @@ export default function Charts({ stats, loading }) {
                     <div className="legend-dot" style={{ background: item.color }} />
                     {item.name}
                   </div>
-                  <div className="legend-amount">${item.value.toLocaleString()}</div>
+                  <div className="legend-amount">₹{item.value.toLocaleString('en-IN')}</div>
                 </div>
               ))}
             </div>
